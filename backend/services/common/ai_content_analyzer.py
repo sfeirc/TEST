@@ -164,24 +164,30 @@ You are NOT just a classifier. You are an intelligent routing engine that ensure
 
 def get_ai_client():
     """Obtenir le client OpenAI ou Azure OpenAI"""
-    # Vérifier Azure OpenAI
-    azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
-    azure_key = os.getenv("AZURE_OPENAI_KEY")
-    azure_deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT")
+    from services.common.http_client_helper import remove_proxy_env_vars, restore_proxy_env_vars
     
-    if azure_endpoint and azure_key:
-        return AzureOpenAI(
-            api_key=azure_key,
-            api_version="2024-02-15-preview",
-            azure_endpoint=azure_endpoint
-        ), azure_deployment
-    
-    # Repli sur OpenAI Direct
-    openai_key = os.getenv("OPENAI_API_KEY")
-    if openai_key:
-        return OpenAI(api_key=openai_key), os.getenv("AZURE_OPENAI_DEPLOYMENT")
-    
-    return None, None
+    old_proxies = remove_proxy_env_vars()
+    try:
+        # Vérifier Azure OpenAI
+        azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+        azure_key = os.getenv("AZURE_OPENAI_KEY")
+        azure_deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT")
+        
+        if azure_endpoint and azure_key:
+            return AzureOpenAI(
+                api_key=azure_key,
+                api_version="2024-02-15-preview",
+                azure_endpoint=azure_endpoint
+            ), azure_deployment
+        
+        # Repli sur OpenAI Direct
+        openai_key = os.getenv("OPENAI_API_KEY")
+        if openai_key:
+            return OpenAI(api_key=openai_key), os.getenv("AZURE_OPENAI_DEPLOYMENT")
+        
+        return None, None
+    finally:
+        restore_proxy_env_vars(old_proxies)
 
 async def analyze_content_with_ai(
     content: str,

@@ -13,6 +13,7 @@ Office365-REST-Python-Client==2.5.3
 
 # OpenAI / Azure OpenAI
 openai==1.12.0
+httpx==0.25.2
 
 # PowerPoint generation for diagrams
 python-pptx==0.6.23

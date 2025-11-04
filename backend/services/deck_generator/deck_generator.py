@@ -125,29 +125,34 @@ Respond ONLY in strict valid JSON, without additional text or markdown formattin
 
 def get_ai_client():
     """Get OpenAI or Azure OpenAI client according to configuration"""
+    from services.common.http_client_helper import remove_proxy_env_vars, restore_proxy_env_vars
     
-    # Check Azure OpenAI configuration
-    azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
-    azure_key = os.getenv("AZURE_OPENAI_KEY")
-    azure_deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT")
-    
-    if azure_endpoint and azure_key:
-        return AzureOpenAI(
-            api_key=azure_key,
-            api_version="2024-02-15-preview",
-            azure_endpoint=azure_endpoint
-        ), azure_deployment
-    
-    # Fallback to OpenAI
-    openai_key = os.getenv("OPENAI_API_KEY")
-    if openai_key:
-        return OpenAI(api_key=openai_key), os.getenv("AZURE_OPENAI_DEPLOYMENT")
-    
-    raise Exception(
-        "No AI service configured. Please configure:\n"
-        "- AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_KEY, AZURE_OPENAI_DEPLOYMENT\n"
-        "- OR OPENAI_API_KEY"
-    )
+    old_proxies = remove_proxy_env_vars()
+    try:
+        # Check Azure OpenAI configuration
+        azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+        azure_key = os.getenv("AZURE_OPENAI_KEY")
+        azure_deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT")
+        
+        if azure_endpoint and azure_key:
+            return AzureOpenAI(
+                api_key=azure_key,
+                api_version="2024-02-15-preview",
+                azure_endpoint=azure_endpoint
+            ), azure_deployment
+        
+        # Fallback to OpenAI
+        openai_key = os.getenv("OPENAI_API_KEY")
+        if openai_key:
+            return OpenAI(api_key=openai_key), os.getenv("AZURE_OPENAI_DEPLOYMENT")
+        
+        raise Exception(
+            "No AI service configured. Please configure:\n"
+            "- AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_KEY, AZURE_OPENAI_DEPLOYMENT\n"
+            "- OR OPENAI_API_KEY"
+        )
+    finally:
+        restore_proxy_env_vars(old_proxies)
 
 async def generate_deck_plan_with_ai(content: str) -> Dict:
     """

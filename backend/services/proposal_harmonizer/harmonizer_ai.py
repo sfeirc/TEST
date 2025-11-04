@@ -216,29 +216,34 @@ You are NOT just a formatter. You are a brand guardian who transforms chaos into
 
 def get_ai_client():
     """Obtenir le client OpenAI ou Azure OpenAI selon la configuration"""
+    from services.common.http_client_helper import remove_proxy_env_vars, restore_proxy_env_vars
     
-    # Vérifier la configuration Azure OpenAI
-    azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
-    azure_key = os.getenv("AZURE_OPENAI_KEY")
-    azure_deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT")
-    
-    if azure_endpoint and azure_key:
-        return AzureOpenAI(
-            api_key=azure_key,
-            api_version="2024-02-15-preview",
-            azure_endpoint=azure_endpoint
-        ), azure_deployment
-    
-    # Fallback vers OpenAI
-    openai_key = os.getenv("OPENAI_API_KEY")
-    if openai_key:
-        return OpenAI(api_key=openai_key), os.getenv("AZURE_OPENAI_DEPLOYMENT")
-    
-    raise Exception(
-        "Aucun service IA configuré. Veuillez configurer:\n"
-        "- AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_KEY, AZURE_OPENAI_DEPLOYMENT\n"
-        "- OU OPENAI_API_KEY"
-    )
+    old_proxies = remove_proxy_env_vars()
+    try:
+        # Vérifier la configuration Azure OpenAI
+        azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+        azure_key = os.getenv("AZURE_OPENAI_KEY")
+        azure_deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT")
+        
+        if azure_endpoint and azure_key:
+            return AzureOpenAI(
+                api_key=azure_key,
+                api_version="2024-02-15-preview",
+                azure_endpoint=azure_endpoint
+            ), azure_deployment
+        
+        # Fallback vers OpenAI
+        openai_key = os.getenv("OPENAI_API_KEY")
+        if openai_key:
+            return OpenAI(api_key=openai_key), os.getenv("AZURE_OPENAI_DEPLOYMENT")
+        
+        raise Exception(
+            "Aucun service IA configuré. Veuillez configurer:\n"
+            "- AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_KEY, AZURE_OPENAI_DEPLOYMENT\n"
+            "- OU OPENAI_API_KEY"
+        )
+    finally:
+        restore_proxy_env_vars(old_proxies)
 
 async def harmonize_presentation_with_ai(extracted_content: Dict) -> Dict:
     """

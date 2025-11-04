@@ -302,29 +302,36 @@ You are NOT just an analyzer. You are a strategic consultant providing decision 
 
 def get_ai_client():
     """Obtenir le client OpenAI ou Azure OpenAI selon la configuration d'environnement"""
+    from services.common.http_client_helper import remove_proxy_env_vars, restore_proxy_env_vars
     
-    # Vérifier la configuration Azure OpenAI
-    azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
-    azure_key = os.getenv("AZURE_OPENAI_KEY")
-    azure_deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT")
+    # Supprimer les proxies avant de créer les clients
+    old_proxies = remove_proxy_env_vars()
     
-    if azure_endpoint and azure_key:
-        return AzureOpenAI(
-            api_key=azure_key,
-            api_version="2024-02-15-preview",
-            azure_endpoint=azure_endpoint
-        ), azure_deployment
-    
-    # Repli sur OpenAI Direct
-    openai_key = os.getenv("OPENAI_API_KEY")
-    if openai_key:
-        return OpenAI(api_key=openai_key), os.getenv("AZURE_OPENAI_DEPLOYMENT")
-    
-    raise Exception(
-        "Aucun service IA configuré. Veuillez configurer:\n"
-        "- AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_KEY, AZURE_OPENAI_DEPLOYMENT\n"
-        "- OU OPENAI_API_KEY"
-    )
+    try:
+        # Vérifier la configuration Azure OpenAI
+        azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+        azure_key = os.getenv("AZURE_OPENAI_KEY")
+        azure_deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT")
+        
+        if azure_endpoint and azure_key:
+            return AzureOpenAI(
+                api_key=azure_key,
+                api_version="2024-02-15-preview",
+                azure_endpoint=azure_endpoint
+            ), azure_deployment
+        
+        # Repli sur OpenAI Direct
+        openai_key = os.getenv("OPENAI_API_KEY")
+        if openai_key:
+            return OpenAI(api_key=openai_key), os.getenv("AZURE_OPENAI_DEPLOYMENT")
+        
+        raise Exception(
+            "Aucun service IA configuré. Veuillez configurer:\n"
+            "- AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_KEY, AZURE_OPENAI_DEPLOYMENT\n"
+            "- OU OPENAI_API_KEY"
+        )
+    finally:
+        restore_proxy_env_vars(old_proxies)
 
 async def summarize_rfp_with_ai(rfp_text: str) -> dict:
     """

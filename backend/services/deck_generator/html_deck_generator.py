@@ -33,16 +33,22 @@ async def generate_html_deck_with_ai(
     """
     
     # Initialiser le client IA
-    if use_azure:
-        client = AsyncAzureOpenAI(
-            api_key=os.getenv("AZURE_OPENAI_KEY"),
-            api_version="2024-08-01-preview",
-            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
-        )
-        model = os.getenv("AZURE_OPENAI_DEPLOYMENT")
-    else:
-        client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-        model = os.getenv("AZURE_OPENAI_DEPLOYMENT")
+    from services.common.http_client_helper import remove_proxy_env_vars, restore_proxy_env_vars
+    
+    old_proxies = remove_proxy_env_vars()
+    try:
+        if use_azure:
+            client = AsyncAzureOpenAI(
+                api_key=os.getenv("AZURE_OPENAI_KEY"),
+                api_version="2024-08-01-preview",
+                azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+            )
+            model = os.getenv("AZURE_OPENAI_DEPLOYMENT")
+        else:
+            client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+            model = os.getenv("AZURE_OPENAI_DEPLOYMENT")
+    finally:
+        restore_proxy_env_vars(old_proxies)
     
     # Prompt système ultra-détaillé (Optimisé - Skywork.ai Professional Level)
     system_prompt = """# EXPERT HTML/CSS PRESENTATION ARCHITECT - SKYWORK.AI LEVEL
@@ -337,16 +343,22 @@ async def validate_html_deck(
     """
     
     # Initialiser le client IA
-    if use_azure:
-        client = AsyncAzureOpenAI(
-            api_key=os.getenv("AZURE_OPENAI_KEY"),
-            api_version="2024-08-01-preview",
-            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
-        )
-        model = os.getenv("AZURE_OPENAI_DEPLOYMENT")
-    else:
-        client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-        model = os.getenv("AZURE_OPENAI_DEPLOYMENT")
+    from services.common.http_client_helper import remove_proxy_env_vars, restore_proxy_env_vars
+    
+    old_proxies = remove_proxy_env_vars()
+    try:
+        if use_azure:
+            client = AsyncAzureOpenAI(
+                api_key=os.getenv("AZURE_OPENAI_KEY"),
+                api_version="2024-08-01-preview",
+                azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+            )
+            model = os.getenv("AZURE_OPENAI_DEPLOYMENT")
+        else:
+            client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+            model = os.getenv("AZURE_OPENAI_DEPLOYMENT")
+    finally:
+        restore_proxy_env_vars(old_proxies)
     
     system_prompt = """You are an expert validation agent specializing in:
 1. HTML/CSS (W3C standards, linting)
