@@ -7,43 +7,7 @@ appPackage/build
 # dependencies
 node_modules/
 
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-env/
-venv/
-ENV/
-backend/env/
-backend/venv/
-
-# Environment variables
+# misc
 .env
-.env.local
-backend/.env
-backend/.env.local
-
-# Generated files
-backend/generated_files/*
-!backend/generated_files/.gitkeep
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Deployment
 .deployment
-*.log
-
-# Temporary files
-*.tmp
-*.temp
+.DS_Store
