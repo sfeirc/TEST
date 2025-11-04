@@ -1,0 +1,83 @@
+openapi: 3.0.1
+info:
+  title: GenerateDeckFromText API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3001
+
+paths:
+  /generateDeckFromText:
+    post:
+      summary: Generate a full PowerPoint-style slide plan from business context.
+      description: |
+        Given a customer context, value proposition, and constraints (timeline, SLA, penalties),
+        return a slide-by-slide narrative that can be turned into a commercial / executive deck.
+        The style must follow Infotel's branding tone: business-focused, concise, no marketing fluff,
+        and clear bullets ready to paste in PowerPoint.
+      operationId: generateDeckFromText
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customerContext:
+                  type: string
+                  description: >
+                    Who the customer is, what they are trying to achieve, pain points, urgency.
+                    Example: "Large retail group migrating legacy systems, needs data platform in 6 months."
+                valueProposal:
+                  type: string
+                  description: >
+                    The Infotel offer / positioning / differentiation.
+                    Example: "Managed data platform, security compliance, 24/7 support."
+                constraintsAndRisks:
+                  type: string
+                  description: >
+                    Any contractual constraints, SLA expectations, penalties, IP transfer,
+                    legal blockers, etc.
+                    Example: "99.9% SLA, 10k€/day penalty after 5 days late, IP transfer clause."
+              required:
+                - customerContext
+      responses:
+        "200":
+          description: Slide plan generated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  slides:
+                    type: array
+                    description: >
+                      Ordered list of slides. Each slide contains a title and 3-5 bullet points
+                      that are ready to paste in a PowerPoint deck for management / client.
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                          description: "Slide title. Executive, direct, Infotel tone."
+                        bullets:
+                          type: array
+                          description: "3-5 bullet points for that slide."
+                          items:
+                            type: string
+                        notes:
+                          type: string
+                          description: >
+                            Optional contextual note for the presenter (not necessarily shown on slide).
+                      required:
+                        - title
+                        - bullets
+                  recommendations:
+                    type: array
+                    description: >
+                      Extra guidance for the bid team:
+                      talk track, narrative flow, visual recommendations.
+                    items:
+                      type: string
+                required:
+                  - slides

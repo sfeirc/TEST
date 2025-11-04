@@ -1,0 +1,434 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",      
+  "body": [
+    {
+      "type": "Container",
+      "style": "emphasis",
+      "bleed": true,
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "Image",
+                  "url": "https://upload.wikimedia.org/wikipedia/fr/e/e6/Logo-infotel.png",
+                  "size": "high",
+                  "width": "192px",
+                  "altText": "Logo Infotel"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "📄 Fichier reçu: ${filename}",
+                  "size": "large",
+                  "weight": "bolder",
+                  "color": "accent"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "Que souhaitez-vous faire avec ce document?",
+                  "size": "medium",
+                  "wrap": true,
+                  "spacing": "none"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "spacing": "large",
+      "style": "good",
+      "bleed": true,
+      "isVisible": "${if(suggested_action, true, false)}",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "💡 Action Suggérée",
+          "weight": "bolder",
+          "size": "medium",
+          "color": "good"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${suggestion_reason}",
+          "wrap": true,
+          "isSubtle": true,
+          "spacing": "small",
+          "size": "small"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "spacing": "medium",
+      "isVisible": "${if(suggested_action == 'summarize', true, false)}",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "📋",
+                  "size": "extraLarge"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Analyser cet Appel d'Offres",
+                  "weight": "bolder",
+                  "size": "large",
+                  "color": "good"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "✓ Extraction des lots et budgets\n✓ Calendrier et échéances\n✓ Profils requis et critères de sélection",
+                  "size": "small",
+                  "wrap": true,
+                  "spacing": "small"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "spacing": "medium",
+      "isVisible": "${if(suggested_action == 'deck', true, false)}",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "📊",
+                  "size": "extraLarge"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Générer une Présentation PowerPoint",
+                  "weight": "bolder",
+                  "size": "large",
+                  "color": "good"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "✓ Plan de slides professionnel\n✓ Charte Infotel 2025\n✓ Validation en 2 étapes",
+                  "size": "small",
+                  "wrap": true,
+                  "spacing": "small"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "spacing": "medium",
+      "isVisible": "${if(suggested_action == 'harmonize', true, false)}",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "✨",
+                  "size": "extraLarge"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Harmoniser ce PowerPoint",
+                  "weight": "bolder",
+                  "size": "large",
+                  "color": "good"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "✓ Application charte Infotel 2025\n✓ Restructuration intelligente\n✓ Logo et couleurs PANTONE",
+                  "size": "small",
+                  "wrap": true,
+                  "spacing": "small"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "large",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "🔽 Autres Options Disponibles",
+          "weight": "bolder",
+          "size": "medium",
+          "horizontalAlignment": "center",
+          "color": "accent"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "spacing": "small",
+      "isVisible": "${if(suggested_action != 'summarize', true, false)}",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "📋",
+                  "size": "large"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Analyser un appel d'offres",
+                  "weight": "bolder"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "Extraction des informations clés, budgets, critères",
+                  "size": "small",
+                  "isSubtle": true,
+                  "wrap": true,
+                  "spacing": "none"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "spacing": "small",
+      "isVisible": "${if(suggested_action != 'deck', true, false)}",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "📊",
+                  "size": "large"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Générer une présentation PowerPoint",
+                  "weight": "bolder"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "Plan de slides complet avec charte Infotel",
+                  "size": "small",
+                  "isSubtle": true,
+                  "wrap": true,
+                  "spacing": "none"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "spacing": "small",
+      "isVisible": "${if(suggested_action != 'diagram', true, false)}",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "🎨",
+                  "size": "large"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Créer un diagramme d'architecture",
+                  "weight": "bolder"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "Schéma technique de la solution proposée",
+                  "size": "small",
+                  "isSubtle": true,
+                  "wrap": true,
+                  "spacing": "none"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "spacing": "small",
+      "isVisible": "${if(suggested_action != 'harmonize', true, false)}",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "✨",
+                  "size": "large"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Harmoniser et standardiser",
+                  "weight": "bolder"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "Application de la charte graphique Infotel",
+                  "size": "small",
+                  "isSubtle": true,
+                  "wrap": true,
+                  "spacing": "none"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "${if(suggested_action == 'summarize', '✅ Analyser cet Appel d\\'Offres', '📋 Analyser (RFP)')}",
+      "data": {
+        "action": "summarize",
+        "command": "/summarize"
+      },
+      "style": "${if(suggested_action == 'summarize', 'positive', 'default')}"
+    },
+    {
+      "type": "Action.Submit",
+      "title": "${if(suggested_action == 'deck', '✅ Générer Présentation', '📊 Présentation')}",
+      "data": {
+        "action": "deck",
+        "command": "/deck"
+      },
+      "style": "${if(suggested_action == 'deck', 'positive', 'default')}"
+    },
+    {
+      "type": "Action.Submit",
+      "title": "${if(suggested_action == 'diagram', '✅ Créer Diagramme', '🎨 Diagramme')}",
+      "data": {
+        "action": "diagram",
+        "command": "/diagram"
+      },
+      "style": "${if(suggested_action == 'diagram', 'positive', 'default')}"
+    },
+    {
+      "type": "Action.Submit",
+      "title": "${if(suggested_action == 'harmonize', '✅ Harmoniser PowerPoint', '✨ Harmoniser')}",
+      "data": {
+        "action": "harmonize",
+        "command": "/harmonize"
+      },
+      "style": "${if(suggested_action == 'harmonize', 'positive', 'default')}"
+    }
+  ]
+}

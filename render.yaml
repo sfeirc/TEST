@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: infotel-ai-backend
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && python -m uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      # Add your environment variables here:
+      # - key: AZURE_OPENAI_ENDPOINT
+      #   sync: false
+      # - key: AZURE_OPENAI_KEY
+      #   sync: false
+      # - key: AZURE_OPENAI_DEPLOYMENT
+      #   sync: false
+

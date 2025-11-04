@@ -1,0 +1,211 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "Container",
+      "style": "emphasis",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "Image",
+                  "url": "https://upload.wikimedia.org/wikipedia/fr/e/e6/Logo-infotel.png",
+                  "size": "high",
+                  "width": "192px",
+                  "altText": "Logo Infotel"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "📋 Plan de Présentation Généré",
+                  "weight": "bolder",
+                  "size": "large"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${title}",
+                  "wrap": true,
+                  "isSubtle": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "J'ai préparé une présentation de **${count(slides)} slides** pour vous. Voici le plan détaillé:",
+          "wrap": true,
+          "size": "medium"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "$data": "${slides}",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "${$index + 1}",
+                  "weight": "bolder",
+                  "size": "large",
+                  "color": "accent",
+                  "horizontalAlignment": "center"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "${title}",
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "• ${join(if(bullets, bullets, []), '\n• ')}",
+                  "wrap": true,
+                  "spacing": "small",
+                  "isSubtle": true
+                }
+              ]
+            }
+          ],
+          "separator": true,
+          "spacing": "small"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "large",
+      "style": "attention",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "⚡ Action requise",
+          "weight": "bolder",
+          "size": "medium",
+          "horizontalAlignment": "center"
+        },
+        {
+          "type": "TextBlock",
+          "text": "Ce plan vous convient-il? Choisissez une option ci-dessous:",
+          "wrap": true,
+          "horizontalAlignment": "center",
+          "spacing": "small"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "✅ Confirmer et Générer",
+      "style": "positive",
+      "data": {
+        "action": "confirm_deck_generation",
+        "plan": "${$root}"
+      }
+    },
+    {
+      "type": "Action.ShowCard",
+      "title": "✏️ Modifier le Plan",
+      "card": {
+        "type": "AdaptiveCard",
+        "body": [
+          {
+            "type": "TextBlock",
+            "text": "📝 Que souhaitez-vous modifier?",
+            "weight": "bolder"
+          },
+          {
+            "type": "Input.ChoiceSet",
+            "id": "modification_type",
+            "style": "compact",
+            "choices": [
+              {
+                "title": "Ajouter des slides",
+                "value": "add_slides"
+              },
+              {
+                "title": "Supprimer des slides",
+                "value": "remove_slides"
+              },
+              {
+                "title": "Changer le contenu",
+                "value": "change_content"
+              },
+              {
+                "title": "Réorganiser l'ordre",
+                "value": "reorder"
+              }
+            ]
+          },
+          {
+            "type": "Input.Text",
+            "id": "modification_details",
+            "placeholder": "Décrivez vos modifications...",
+            "isMultiline": true
+          }
+        ],
+        "actions": [
+          {
+            "type": "Action.Submit",
+            "title": "Envoyer les modifications",
+            "data": {
+              "action": "modify_deck_plan"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "🔄 Régénérer le Plan",
+      "data": {
+        "action": "regenerate_deck_plan"
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "❌ Annuler",
+      "style": "destructive",
+      "data": {
+        "action": "cancel_deck_generation"
+      }
+    }
+  ]
+}
+

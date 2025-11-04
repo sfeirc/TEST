@@ -1,0 +1,44 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/copilot/plugin/v2.1/schema.json",
+    "schema_version": "v2.1",
+    "name_for_human": "GenerateDeckFromText API",
+    "description_for_human": "Description for GenerateDeckFromText API",
+    "description_for_model": "Description for GenerateDeckFromText API",
+    "contact_email": "publisher-email@example.com",
+    "namespace": "infotel",
+    "capabilities": {
+        "conversation_starters": [
+            {
+                "text": "Generate a full PowerPoint-style slide plan from b"
+            }
+        ]
+    },
+    "functions": [
+        {
+            "name": "generateDeckFromText",
+            "description": "Given a customer context, value proposition, and constraints (timeline, SLA, penalties),\nreturn a slide-by-slide narrative that can be turned into a commercial / executive deck.\nThe style must follow Infotel&apos;s branding tone: business-focused, concise, no marketing fluff,\nand clear bullets ready to paste in PowerPoint.\n",
+            "capabilities": {
+                "response_semantics": {
+                    "data_path": "$",
+                    "static_template": {
+                        "file": "./adaptiveCards/generateDeckFromText.json"
+                    }
+                }
+            }
+        }
+    ],
+    "runtimes": [
+        {
+            "type": "OpenApi",
+            "auth": {
+                "type": "None"
+            },
+            "spec": {
+                "url": "apiSpecificationFile/openapi_1.yaml"
+            },
+            "run_for_functions": [
+                "generateDeckFromText"
+            ]
+        }
+    ]
+}

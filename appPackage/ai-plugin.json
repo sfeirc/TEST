@@ -1,0 +1,44 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/copilot/plugin/v2.1/schema.json",
+    "schema_version": "v2.1",
+    "name_for_human": "Analyseur d'Appels d'Offres",
+    "description_for_human": "Analyse exhaustive et structurée d'appels d'offres pour les marchés publics",
+    "description_for_model": "Analyse en profondeur les appels d'offres et documents RFP, en particulier pour les marchés publics français. Produit une synthèse décisionnelle détaillée incluant: identification du marché, découpage par lots, budget global, calendrier avec niveau d'urgence, pénalités contractuelles, technologies et compétences requises, critères de sélection, et constitution du dossier de réponse. Optimisé pour les services informatiques et le conseil.",
+    "contact_email": "publisher-email@example.com",
+    "namespace": "infotel",
+    "capabilities": {
+        "conversation_starters": [
+            {
+                "text": "Analyser cet appel d'offres et produire une synthèse décisionnelle"
+            }
+        ]
+    },
+    "functions": [
+        {
+            "name": "summarizeRfp",
+            "description": "Analyser un appel d'offres et extraire les informations stratégiques pour la pré-vente. Produit une analyse exhaustive en français incluant les lots, budgets, pénalités, compétences requises, et constitution du dossier.",
+            "capabilities": {
+                "response_semantics": {
+                    "data_path": "$",
+                    "static_template": {
+                        "file": "./adaptiveCards/summarizeRfp.json"
+                    }
+                }
+            }
+        }
+    ],
+    "runtimes": [
+        {
+            "type": "OpenApi",
+            "auth": {
+                "type": "None"
+            },
+            "spec": {
+                "url": "apiSpecificationFile/openapi.yaml"
+            },
+            "run_for_functions": [
+                "summarizeRfp"
+            ]
+        }
+    ]
+}

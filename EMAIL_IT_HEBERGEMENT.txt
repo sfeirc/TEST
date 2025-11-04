@@ -1,0 +1,62 @@
+Objet: Demande d'hébergement - Backend API pour Agent IA Infotel (Microsoft Teams)
+
+Bonjour,
+
+Je me présente, Clovis Sfeir, et je travaille actuellement avec Charles Gaudon et Guillaume Letrou sur des solutions d'intelligence artificielle visant à optimiser le processus d'avant-vente.
+
+Dans le cadre de ce projet, nous développons un agent déclaratif Microsoft 365 (anciennement Copilot Studio) qui permettra d'automatiser l'analyse de documents (offres, appels d'offres, génération de présentations, diagrammes) grâce à l'IA, intégré directement dans Microsoft Teams.
+
+Ma demande :
+
+J'ai besoin d'un hébergement pour le backend API FastAPI (Python) qui supporte les fonctionnalités de l'agent. L'agent Teams lui-même est hébergé par Microsoft, mais le backend doit être accessible publiquement via HTTPS pour que Teams puisse l'appeler.
+
+Contexte technique :
+
+Notre solution utilise :
+- Agent déclaratif Microsoft 365 (hébergé par Microsoft - pas d'hébergement requis)
+- Backend API FastAPI Python (À HÉBERGER) - Azure App Service recommandé ou autre
+- Azure OpenAI ou OpenAI API (pour l'IA)
+- Intégration Microsoft Teams
+
+Spécifications de l'hébergement :
+
+Application :
+- Langage: Python 3.11+
+- Framework: FastAPI avec Uvicorn
+- Port: 3001 (ou 8000 selon configuration Azure App Service)
+- Dépendances: Voir fichier `backend/requirements.txt`
+
+Configuration requise :
+- Environnement Python 3.11+ (Linux recommandé)
+- Variables d'environnement (fichier `.env` fourni - voir `backend/env_template.txt`)
+- Stockage pour fichiers temporaires générés (~500MB minimum, stockage persistant recommandé)
+- HTTPS obligatoire (pour Teams)
+- CORS configuré pour domaines Microsoft Teams
+
+Recommandation : Azure App Service (Linux)
+
+Option recommandée pour :
+- Support natif Python
+- HTTPS automatique
+- Scaling automatique
+- Intégration facile avec Azure OpenAI
+- Monitoring via Application Insights
+
+Besoin :
+
+J'ai besoin d'un environnement hébergé me permettant de :
+- Déployer l'application FastAPI Python
+- Configurer les variables d'environnement (clés API Azure OpenAI)
+- Avoir un URL HTTPS public accessible (ex: `https://infotel-ai-backend.azurewebsites.net`)
+- Stocker temporairement les fichiers PowerPoint générés
+- Monitorer les performances et logs
+
+
+
+Je reste à votre disposition pour toute information complémentaire.
+
+Merci d'avance pour votre retour et votre assistance.
+
+Cordialement,
+
+Clovis Sfeir

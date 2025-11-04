@@ -1,0 +1,220 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "Container",
+      "style": "emphasis",
+      "bleed": true,
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "Image",
+                  "url": "https://upload.wikimedia.org/wikipedia/fr/e/e6/Logo-infotel.png",
+                  "size": "high",
+                  "width": "192px",
+                  "altText": "Logo Infotel"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "✨ Proposition Harmonisée",
+                  "weight": "bolder",
+                  "size": "large",
+                  "color": "accent"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Standardisation de ${count(normalized_slides)} slides selon la charte Infotel",
+          "wrap": true,
+          "isSubtle": true
+        },
+        {
+          "type": "TextBlock",
+          "text": "Conformité Charte Infotel 2025:",
+          "weight": "bolder",
+          "size": "small",
+          "spacing": "medium"
+        },
+        {
+          "type": "ColumnSet",
+          "spacing": "small",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "100px",
+              "style": "good",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": " ",
+                  "size": "small"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "TextBlock",
+          "text": "✅ 100% - Couleurs PANTONE, Segoe UI, Logo Infotel appliqués",
+          "size": "small",
+          "isSubtle": true,
+          "spacing": "small",
+          "color": "good"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Slides Harmonisées",
+          "weight": "bolder",
+          "size": "medium",
+          "color": "good"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "$data": "${normalized_slides}",
+      "separator": true,
+      "spacing": "medium",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Slide ${$index + 1}: ${title}",
+          "weight": "bolder",
+          "color": "accent"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${join(bullets, '\n• ')}",
+          "wrap": true,
+          "spacing": "small"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "📝 Modifications Appliquées",
+          "weight": "bolder",
+          "size": "medium"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${count(changes)} modifications effectuées",
+          "isSubtle": true,
+          "spacing": "small"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "$data": "${changes}",
+      "separator": false,
+      "spacing": "small",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Slide ${slide_index + 1}",
+                  "weight": "bolder",
+                  "size": "small"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "${issue_type}",
+                  "color": "attention",
+                  "weight": "bolder",
+                  "size": "small"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "Avant: ${before}",
+                  "wrap": true,
+                  "isSubtle": true,
+                  "spacing": "none",
+                  "size": "small"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "Après: ${after}",
+                  "wrap": true,
+                  "spacing": "none",
+                  "size": "small"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "📐 Directives de Style",
+          "weight": "bolder",
+          "size": "medium",
+          "color": "good"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${if(count(global_style_guidelines) > 0, join(global_style_guidelines, '\n• '), 'Aucune directive supplémentaire')}",
+          "wrap": true,
+          "spacing": "small",
+          "isSubtle": true
+        }
+      ]
+    }
+  ]
+}

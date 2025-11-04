@@ -1,0 +1,96 @@
+# yaml-language-server: $schema=https://aka.ms/m365-agents-toolkits/v1.9/yaml.schema.json
+# Consultez https://aka.ms/teamsfx-v5.0-guide pour plus de détails sur ce fichier
+# Consultez https://aka.ms/teamsfx-actions pour plus de détails sur les actions
+version: v1.9
+
+environmentFolderPath: ./env
+
+# Déclenché lors de l'exécution de 'teamsapp provision'
+provision:
+  # Crée une application
+  - uses: teamsApp/create
+    with:
+      # nom de l'application
+      name: INFOTEL${{APP_NAME_SUFFIX}}
+    # Écrit les informations des ressources créées dans le fichier d'environnement pour
+    # les variable(s) d'environnement spécifiée(s).
+    writeToEnvironmentFile:
+      teamsAppId: TEAMS_APP_ID
+
+  # Construit le package de l'application avec les dernières valeurs d'environnement
+  - uses: teamsApp/zipAppPackage
+    with:
+      # Chemin vers le template du manifest
+      manifestPath: ./appPackage/manifest.json
+      outputZipPath: ./appPackage/build/appPackage.${{TEAMSFX_ENV}}.zip
+      outputFolder: ./appPackage/build
+  # Valide le package de l'application en utilisant les règles de validation
+  - uses: teamsApp/validateAppPackage
+    with:
+      # Chemin relatif vers ce fichier. C'est le chemin du fichier zip construit.
+      appPackagePath: ./appPackage/build/appPackage.${{TEAMSFX_ENV}}.zip
+  # Met à jour le manifest de l'application vers une application existante dans le Developer Portal.
+  # Utilisera l'ID de l'application dans le fichier manifest pour déterminer quelle application mettre à jour.
+  - uses: teamsApp/update
+    with:
+      # Chemin relatif vers ce fichier. C'est le chemin du fichier zip construit.
+      appPackagePath: ./appPackage/build/appPackage.${{TEAMSFX_ENV}}.zip
+  # Étend votre application à Outlook et l'application Microsoft 365
+  # COMMENTÉ: Cette action cause des erreurs 429 (rate limiting) et n'est pas nécessaire pour Teams
+  # - uses: teamsApp/extendToM365
+  #   with:
+  #     # Chemin relatif vers le package de l'application construit.
+  #     appPackagePath: ./appPackage/build/appPackage.${{TEAMSFX_ENV}}.zip
+  #   # Écrit les informations des ressources créées dans le fichier d'environnement pour
+  #   # les variable(s) d'environnement spécifiée(s).
+  #   writeToEnvironmentFile:
+  #     titleId: M365_TITLE_ID
+  #     appId: M365_APP_ID
+
+# Déclenché lors de l'exécution de 'teamsapp deploy'
+deploy:
+  # Construit le package de l'application avec les dernières valeurs d'environnement
+  - uses: teamsApp/zipAppPackage
+    with:
+      # Chemin vers le template du manifest
+      manifestPath: ./appPackage/manifest.json
+      outputZipPath: ./appPackage/build/appPackage.${{TEAMSFX_ENV}}.zip
+      outputFolder: ./appPackage/build
+  # Met à jour le manifest de l'application vers une application existante dans le Developer Portal
+  - uses: teamsApp/update
+    with:
+      # Chemin relatif vers ce fichier. C'est le chemin du fichier zip construit.
+      appPackagePath: ./appPackage/build/appPackage.${{TEAMSFX_ENV}}.zip
+
+# Déclenché lors de l'exécution de 'teamsapp publish'
+publish:
+  # Construit le package de l'application avec les dernières valeurs d'environnement
+  - uses: teamsApp/zipAppPackage
+    with:
+      # Chemin vers le template du manifest
+      manifestPath: ./appPackage/manifest.json
+      outputZipPath: ./appPackage/build/appPackage.${{TEAMSFX_ENV}}.zip
+      outputFolder: ./appPackage/build
+  # Valide le package de l'application en utilisant les règles de validation
+  - uses: teamsApp/validateAppPackage
+    with:
+      # Chemin relatif vers ce fichier. C'est le chemin du fichier zip construit.
+      appPackagePath: ./appPackage/build/appPackage.${{TEAMSFX_ENV}}.zip
+  # Applique le manifest de l'application vers une application existante dans
+  # le Developer Portal.
+  # Utilisera l'ID de l'application dans le fichier manifest pour déterminer quelle application mettre à jour.
+  - uses: teamsApp/update
+    with:
+      # Chemin relatif vers ce fichier. C'est le chemin du fichier zip construit.
+      appPackagePath: ./appPackage/build/appPackage.${{TEAMSFX_ENV}}.zip
+  # Publie l'application dans
+  # le Teams Admin Center (https://admin.teams.microsoft.com/policies/manage-apps)
+  # pour révision et approbation
+  - uses: teamsApp/publishAppPackage
+    with:
+      appPackagePath: ./appPackage/build/appPackage.${{TEAMSFX_ENV}}.zip
+    # Écrit les informations des ressources créées dans le fichier d'environnement pour
+    # les variable(s) d'environnement spécifiée(s).
+    writeToEnvironmentFile:
+      publishedAppId: TEAMS_APP_PUBLISHED_APP_ID
+projectId: f3a5dc74-79e9-48f4-8f8f-5e6b2745ae1e

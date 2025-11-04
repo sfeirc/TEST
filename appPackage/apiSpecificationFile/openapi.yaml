@@ -1,0 +1,118 @@
+openapi: 3.0.1
+info:
+  title: SummarizeRfp API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3001
+
+paths:
+  /summarizeRfp:
+    post:
+      summary: Summarize an RFP and extract key business points for pre-sales.
+      operationId: summarizeRfp
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                rfpText:
+                  type: string
+                  description: "Full RFP content, SharePoint link, or leave empty if uploading a file."
+                file:
+                  type: string
+                  format: binary
+                  description: "Upload PDF, DOCX, or TXT file containing the RFP."
+      responses:
+        "200":
+          description: Structured RFP analysis in French with detailed market information
+          content:
+            application/json:
+              schema:
+                type: object
+                description: "Analyse exhaustive de l'appel d'offres au format structuré"
+                properties:
+                  identification_marche:
+                    type: object
+                    properties:
+                      client_emetteur:
+                        type: string
+                      secteur_activite:
+                        type: string
+                      objet_consultation:
+                        type: string
+                      type_procedure:
+                        type: string
+                      synthese_executive:
+                        type: string
+                  lots:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        numero:
+                          type: integer
+                        intitule:
+                          type: string
+                        perimetre:
+                          type: string
+                        budget_total:
+                          type: string
+                  budget_global:
+                    type: object
+                    properties:
+                      annuel:
+                        type: string
+                      total:
+                        type: string
+                  calendrier:
+                    type: object
+                    properties:
+                      date_limite_offres:
+                        type: string
+                      delai_offres:
+                        type: string
+                      niveau_urgence:
+                        type: string
+                        enum: ["CRITIQUE", "ÉLEVÉ", "STANDARD"]
+                  penalites:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                        montant:
+                          type: string
+                        plafond:
+                          type: string
+                  technologies_competences:
+                    type: object
+                    properties:
+                      technologies_imposees:
+                        type: array
+                        items:
+                          type: string
+                      profils_par_lot:
+                        type: array
+                        items:
+                          type: object
+                  points_attention:
+                    type: array
+                    items:
+                      type: string
+                  constitution_dossier:
+                    type: object
+                    properties:
+                      documents_administratifs:
+                        type: array
+                        items:
+                          type: string
+                      cv_requis:
+                        type: object
+                  criteres_selection:
+                    type: array
+                    items:
+                      type: object

@@ -1,0 +1,124 @@
+openapi: 3.0.1
+info:
+  title: GenerateDiagramFromText API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3001
+
+paths:
+  /generateDiagramFromText:
+    post:
+      summary: Generate a corporate-style diagram specification from business text.
+      description: |
+        Given a textual description of a process, architecture, stakeholders or data flows,
+        produce a clean diagram specification that can be inserted into a commercial / executive deck.
+        The diagram must be business-friendly (no low-level infra noise) and aligned with Infotel's
+        corporate style: clear actors, systems, flows, responsibilities.
+      operationId: generateDiagramFromText
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                  description: >
+                    Business description of the scenario that needs to be illustrated.
+                    Example: "Client sends data to our managed platform. We transform, store,
+                    expose dashboards, and provide 24/7 support."
+                highlightRisks:
+                  type: boolean
+                  description: >
+                    If true, mark sensitive points (SLA, penalties, security obligations)
+                    in the diagram notes or legend.
+                  default: false
+              required:
+                - description
+      responses:
+        "200":
+          description: Diagram specification returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nodes:
+                    type: array
+                    description: >
+                      List of entities/blocks that appear in the diagram.
+                      Each node should represent an actor, a system, a service,
+                      or a data store at a business level (not low-level tech).
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: "Stable identifier for linking edges, e.g. 'client', 'platform'."
+                        label:
+                          type: string
+                          description: "Display name in the box, e.g. 'Client Team', 'Managed Platform'."
+                        type:
+                          type: string
+                          description: "actor | system | service | datastore | support | other"
+                        notes:
+                          type: string
+                          description: "Optional note about this node (SLA, responsibility, etc.)."
+                      required:
+                        - id
+                        - label
+                        - type
+                  edges:
+                    type: array
+                    description: >
+                      Directed relationships / flows between nodes.
+                      Typically arrows in the diagram.
+                    items:
+                      type: object
+                      properties:
+                        from:
+                          type: string
+                          description: "Source node id."
+                        to:
+                          type: string
+                          description: "Target node id."
+                        label:
+                          type: string
+                          description: "Business meaning of the flow, e.g. 'Data ingestion', 'Support request'."
+                        critical:
+                          type: boolean
+                          description: "true if this flow is business-critical / high-risk."
+                          default: false
+                      required:
+                        - from
+                        - to
+                  layout:
+                    type: string
+                    description: >
+                      Suggested layout to present the diagram in slides.
+                      Example values: 'left-to-right', 'top-down', 'hub-and-spoke'.
+                    enum:
+                      - left-to-right
+                      - top-down
+                      - hub-and-spoke
+                      - grid
+                  legend:
+                    type: array
+                    description: >
+                      Legend items to help the viewer understand icons/colors.
+                      Example: 'Blue = Infotel responsibility', 'Red arrow = penalty risk path'.
+                    items:
+                      type: string
+                  talkingPoints:
+                    type: array
+                    description: >
+                      Bullet points for the presenter to say out loud when showing the diagram.
+                      These are NOT necessarily printed on the slide.
+                    items:
+                      type: string
+                required:
+                  - nodes
+                  - edges
+                  - layout

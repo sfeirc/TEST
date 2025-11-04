@@ -1,0 +1,52 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/copilot/declarative-agent/v1.5/schema.json",
+    "version": "v1.5",
+    "name": "INFOTEL${{APP_NAME_SUFFIX}}",
+    "description": "Declarative agent created with Microsoft 365 Agents Toolkit",
+    "instructions": "$[file('instruction.txt')]",
+    "capabilities": [
+        {
+            "name": "WebSearch"
+        }
+    ],
+    "actions": [
+        {
+            "id": "action_1",
+            "file": "ai-plugin.json"
+        },
+        {
+            "id": "action_2",
+            "file": "ai-plugin_1.json"
+        },
+        {
+            "id": "action_3",
+            "file": "ai-plugin_2.json"
+        },
+        {
+            "id": "action_4",
+            "file": "ai-plugin_3.json"
+        }
+    ],
+    "conversation_starters": [
+        {
+            "title": "📋 Analyser un Appel d'Offres",
+            "text": "Je souhaite analyser un appel d'offres (RFP). Peux-tu m'aider à extraire les informations clés ?"
+        },
+        {
+            "title": "📊 Créer une Présentation",
+            "text": "J'ai besoin de générer une présentation PowerPoint professionnelle avec la charte Infotel."
+        },
+        {
+            "title": "🎨 Générer un Diagramme",
+            "text": "Je veux créer un diagramme d'architecture technique pour ma proposition commerciale."
+        },
+        {
+            "title": "✨ Harmoniser une Proposition",
+            "text": "J'ai une présentation à standardiser selon la charte graphique Infotel 2025."
+        },
+        {
+            "title": "❓ Quelles sont tes capacités ?",
+            "text": "Quels types de documents peux-tu m'aider à créer ou analyser ?"
+        }
+    ]
+}

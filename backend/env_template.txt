@@ -1,0 +1,17 @@
+# Server Configuration
+PORT=3001
+
+# Azure OpenAI Configuration
+# AZURE_OPENAI_DEPLOYMENT est utilisé dans tous les services (Azure OpenAI)
+AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
+AZURE_OPENAI_KEY=your-azure-openai-key
+AZURE_OPENAI_DEPLOYMENT=gpt-4o
+
+# OR OpenAI Configuration (Alternative)
+# OPENAI_API_KEY=sk-your-openai-key
+
+# SharePoint Configuration 
+# SHAREPOINT_CLIENT_ID=your-app-client-id
+# SHAREPOINT_CLIENT_SECRET=your-app-client-secret
+# SHAREPOINT_TENANT_ID=your-tenant-id
+

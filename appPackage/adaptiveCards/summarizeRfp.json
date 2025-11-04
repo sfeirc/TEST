@@ -1,0 +1,942 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "Container",
+      "style": "emphasis",
+      "bleed": true,
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "Image",
+                  "url": "https://upload.wikimedia.org/wikipedia/fr/e/e6/Logo-infotel.png",
+                  "size": "high",
+                  "width": "192px",
+                  "altText": "Logo Infotel"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Analyse d'Appel d'Offres",
+                  "size": "extraLarge",
+                  "weight": "bolder",
+                  "color": "accent"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${identification_marche.client_emetteur}",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "spacing": "none"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${identification_marche.objet_consultation}",
+                  "size": "small",
+                  "isSubtle": true,
+                  "wrap": true,
+                  "spacing": "none"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "spacing": "medium",
+      "separator": true,
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "⏰ **Urgence:** ${calendrier.niveau_urgence}",
+          "color": "${if(calendrier.niveau_urgence == 'CRITIQUE', 'attention', if(calendrier.niveau_urgence == 'ÉLEVÉ', 'warning', 'good'))}",
+          "weight": "bolder",
+          "size": "medium"
+        },
+        {
+          "type": "ColumnSet",
+          "spacing": "small",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "${if(calendrier.niveau_urgence == 'CRITIQUE', '100px', if(calendrier.niveau_urgence == 'ÉLEVÉ', '66px', '33px'))}",
+              "style": "${if(calendrier.niveau_urgence == 'CRITIQUE', 'attention', if(calendrier.niveau_urgence == 'ÉLEVÉ', 'warning', 'good'))}",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": " ",
+                  "size": "small"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "${if(calendrier.niveau_urgence == 'CRITIQUE', '0px', if(calendrier.niveau_urgence == 'ÉLEVÉ', '34px', '67px'))}",
+              "style": "default",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": " ",
+                  "size": "small"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "FactSet",
+          "facts": [
+            {
+              "title": "📅 Date limite offres:",
+              "value": "${calendrier.date_limite_offres}"
+            },
+            {
+              "title": "⏳ Délai restant:",
+              "value": "${calendrier.delai_offres}"
+            },
+            {
+              "title": "🚀 Démarrage:",
+              "value": "${calendrier.date_demarrage}"
+            }
+          ],
+          "spacing": "small"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "large",
+      "style": "emphasis",
+      "bleed": true,
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "📋 SYNTHÈSE EXÉCUTIVE",
+          "weight": "bolder",
+          "size": "large",
+          "color": "accent"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${identification_marche.synthese_executive}",
+          "wrap": true,
+          "spacing": "small",
+          "size": "medium"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "Image",
+                  "url": "https://img.icons8.com/fluency/48/money-bag.png",
+                  "width": "32px"
+                }
+              ],
+              "spacing": "small",
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "💰 BUDGET GLOBAL",
+                  "weight": "bolder",
+                  "size": "large",
+                  "color": "good"
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Budget annuel:",
+                      "value": "${budget_global.annuel}"
+                    },
+                    {
+                      "title": "Budget total:",
+                      "value": "${budget_global.total}"
+                    }
+                  ],
+                  "spacing": "small"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "📦 LOTS",
+          "weight": "bolder",
+          "size": "large"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "$data": "${lots}",
+      "separator": false,
+      "spacing": "small",
+      "style": "emphasis",
+      "bleed": true,
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "40px",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "${numero}",
+                  "size": "extraLarge",
+                  "weight": "bolder",
+                  "color": "accent",
+                  "horizontalAlignment": "center"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "${intitule}",
+                  "weight": "bolder",
+                  "size": "medium",
+                  "wrap": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${perimetre}",
+                  "wrap": true,
+                  "spacing": "none",
+                  "size": "small",
+                  "isSubtle": true
+                },
+                {
+                  "type": "ColumnSet",
+                  "spacing": "small",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "stretch",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "💼 ${volume_estime}",
+                          "size": "small"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "stretch",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "💰 ${budget_total}",
+                          "size": "small",
+                          "weight": "bolder",
+                          "color": "good"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "⚠️ PÉNALITÉS CONTRACTUELLES",
+          "weight": "bolder",
+          "size": "large",
+          "color": "attention"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "$data": "${penalites}",
+      "separator": false,
+      "spacing": "small",
+      "items": [
+        {
+          "type": "Container",
+          "style": "warning",
+          "bleed": true,
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "⚡ ${type}",
+              "weight": "bolder",
+              "color": "attention"
+            },
+            {
+              "type": "FactSet",
+              "facts": [
+                {
+                  "title": "Montant:",
+                  "value": "${montant}"
+                },
+                {
+                  "title": "Plafond:",
+                  "value": "${plafond}"
+                }
+              ],
+              "spacing": "small"
+            },
+            {
+              "type": "TextBlock",
+              "text": "${modalites}",
+              "wrap": true,
+              "size": "small",
+              "spacing": "small"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "💻 TECHNOLOGIES & COMPÉTENCES",
+          "weight": "bolder",
+          "size": "large"
+        },
+        {
+          "type": "TextBlock",
+          "text": "**Technologies imposées:**",
+          "weight": "bolder",
+          "spacing": "small"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${join(technologies_competences.technologies_imposees, ' • ')}",
+          "wrap": true,
+          "spacing": "none"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "$data": "${technologies_competences.profils_par_lot}",
+      "separator": false,
+      "spacing": "medium",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "**${lot}**",
+          "weight": "bolder",
+          "color": "accent"
+        },
+        {
+          "type": "Container",
+          "$data": "${profils}",
+          "spacing": "small",
+          "items": [
+            {
+              "type": "ColumnSet",
+              "columns": [
+                {
+                  "type": "Column",
+                  "width": "stretch",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "👤 ${intitule}",
+                      "weight": "bolder"
+                    }
+                  ]
+                },
+                {
+                  "type": "Column",
+                  "width": "auto",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "${niveau}",
+                      "color": "good",
+                      "horizontalAlignment": "right"
+                    }
+                  ]
+                },
+                {
+                  "type": "Column",
+                  "width": "auto",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "${quantite}",
+                      "weight": "bolder",
+                      "horizontalAlignment": "right"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "TextBlock",
+              "text": "${join(competences, ' • ')}",
+              "wrap": true,
+              "size": "small",
+              "isSubtle": true,
+              "spacing": "none"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "📍 LOCALISATION & MODALITÉS",
+          "weight": "bolder",
+          "size": "large"
+        },
+        {
+          "type": "FactSet",
+          "facts": [
+            {
+              "title": "🏢 Présentiel:",
+              "value": "${localisation.presentiel_obligatoire}"
+            },
+            {
+              "title": "🏠 Télétravail:",
+              "value": "${localisation.teletravail_autorise}"
+            },
+            {
+              "title": "📊 Répartition:",
+              "value": "${localisation.repartition_imposee}"
+            }
+          ],
+          "spacing": "small"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "🎯 CRITÈRES DE SÉLECTION",
+          "weight": "bolder",
+          "size": "large"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "$data": "${criteres_selection}",
+      "separator": false,
+      "spacing": "small",
+      "items": [
+        {
+          "type": "Container",
+          "style": "accent",
+          "bleed": true,
+          "items": [
+            {
+              "type": "ColumnSet",
+              "columns": [
+                {
+                  "type": "Column",
+                  "width": "stretch",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "${critere}",
+                      "weight": "bolder",
+                      "size": "medium"
+                    }
+                  ]
+                },
+                {
+                  "type": "Column",
+                  "width": "auto",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "${ponderation}",
+                      "weight": "bolder",
+                      "size": "large",
+                      "color": "good",
+                      "horizontalAlignment": "right"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "$data": "${sous_criteres}",
+              "spacing": "small",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "stretch",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "  • ${intitule}",
+                          "size": "small"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "auto",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "${ponderation}",
+                          "size": "small",
+                          "horizontalAlignment": "right"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "style": "warning",
+      "bleed": true,
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "❗ POINTS D'ATTENTION CRITIQUES",
+          "weight": "bolder",
+          "size": "large",
+          "color": "attention"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${join(points_attention, '\n\n🔸 ')}",
+          "wrap": true,
+          "spacing": "small"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "📑 CONSTITUTION DU DOSSIER",
+          "weight": "bolder",
+          "size": "large"
+        },
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "**📋 Documents administratifs**",
+                  "weight": "bolder",
+                  "spacing": "small"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${join(constitution_dossier.documents_administratifs, '\n• ')}",
+                  "wrap": true,
+                  "size": "small",
+                  "spacing": "none"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "**👤 CV requis**",
+                  "weight": "bolder",
+                  "spacing": "small"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "Total: ${constitution_dossier.cv_requis.nombre_total}",
+                  "size": "large",
+                  "weight": "bolder",
+                  "color": "accent",
+                  "spacing": "none"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "Format: ${constitution_dossier.cv_requis.format.pages_max} | ${constitution_dossier.cv_requis.format.anonymisation}",
+                  "size": "small",
+                  "isSubtle": true,
+                  "spacing": "none"
+                }
+              ]
+            }
+          ],
+          "spacing": "small"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "style": "good",
+      "bleed": true,
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Analyse générée par Infotel Pre-Sales Assistant",
+          "size": "small",
+          "isSubtle": true,
+          "horizontalAlignment": "center"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.ShowCard",
+      "title": "🎯 Actions disponibles",
+      "card": {
+        "type": "AdaptiveCard",
+        "body": [
+          {
+            "type": "TextBlock",
+            "text": "Que souhaitez-vous faire avec cet appel d'offres?",
+            "weight": "bolder",
+            "size": "medium"
+          },
+          {
+            "type": "TextBlock",
+            "text": "Tapez une des commandes suivantes:",
+            "spacing": "small",
+            "isSubtle": true
+          },
+          {
+            "type": "Container",
+            "spacing": "medium",
+            "items": [
+              {
+                "type": "ColumnSet",
+                "columns": [
+                  {
+                    "type": "Column",
+                    "width": "auto",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "📊",
+                        "size": "extraLarge"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "**`/deck`** - Générer une présentation PowerPoint",
+                        "wrap": true
+                      },
+                      {
+                        "type": "TextBlock",
+                        "text": "Crée un plan de slides complet basé sur cet AO",
+                        "size": "small",
+                        "isSubtle": true,
+                        "wrap": true,
+                        "spacing": "none"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "ColumnSet",
+                "columns": [
+                  {
+                    "type": "Column",
+                    "width": "auto",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "🎨",
+                        "size": "extraLarge"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "**`/diagram`** - Créer un diagramme d'architecture",
+                        "wrap": true
+                      },
+                      {
+                        "type": "TextBlock",
+                        "text": "Génère un schéma de la solution technique",
+                        "size": "small",
+                        "isSubtle": true,
+                        "wrap": true,
+                        "spacing": "none"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "ColumnSet",
+                "columns": [
+                  {
+                    "type": "Column",
+                    "width": "auto",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "✨",
+                        "size": "extraLarge"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "**`/harmonize`** - Harmoniser votre proposition",
+                        "wrap": true
+                      },
+                      {
+                        "type": "TextBlock",
+                        "text": "Standardise vos slides selon la charte Infotel",
+                        "size": "small",
+                        "isSubtle": true,
+                        "wrap": true,
+                        "spacing": "none"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "TextBlock",
+            "text": "💡 **Astuce:** Copiez simplement la commande dans le chat!",
+            "spacing": "medium",
+            "size": "small",
+            "color": "accent",
+            "wrap": true
+          }
+        ]
+      }
+    },
+    {
+      "type": "Action.ShowCard",
+      "title": "ℹ️ Informations complémentaires",
+      "card": {
+        "type": "AdaptiveCard",
+        "body": [
+          {
+            "type": "TextBlock",
+            "text": "**🏢 Identification**",
+            "weight": "bolder"
+          },
+          {
+            "type": "FactSet",
+            "facts": [
+              {
+                "title": "Secteur:",
+                "value": "${identification_marche.secteur_activite}"
+              },
+              {
+                "title": "Type procédure:",
+                "value": "${identification_marche.type_procedure}"
+              },
+              {
+                "title": "Nature:",
+                "value": "${identification_marche.nature_marche}"
+              },
+              {
+                "title": "Titulaires actuels:",
+                "value": "${identification_marche.titulaires_actuels}"
+              }
+            ]
+          },
+          {
+            "type": "TextBlock",
+            "text": "**📋 Engagement contractuel**",
+            "weight": "bolder",
+            "spacing": "medium"
+          },
+          {
+            "type": "FactSet",
+            "facts": [
+              {
+                "title": "Nature juridique:",
+                "value": "${engagement_contractuel.nature_juridique}"
+              },
+              {
+                "title": "Mode réalisation:",
+                "value": "${engagement_contractuel.mode_realisation}"
+              },
+              {
+                "title": "Durée:",
+                "value": "${engagement_contractuel.duree_initiale}"
+              },
+              {
+                "title": "Reconduction:",
+                "value": "${engagement_contractuel.reconduction}"
+              },
+              {
+                "title": "Tarification:",
+                "value": "${engagement_contractuel.mode_tarification}"
+              }
+            ]
+          },
+          {
+            "type": "TextBlock",
+            "text": "**🌱 RSE**",
+            "weight": "bolder",
+            "spacing": "medium"
+          },
+          {
+            "type": "TextBlock",
+            "text": "Clauses sociales:\n${join(rse.clauses_sociales, '\n• ')}",
+            "wrap": true,
+            "size": "small"
+          },
+          {
+            "type": "TextBlock",
+            "text": "Clauses environnementales:\n${join(rse.clauses_environnementales, '\n• ')}",
+            "wrap": true,
+            "size": "small",
+            "spacing": "small"
+          },
+          {
+            "type": "TextBlock",
+            "text": "**🎖️ Certifications requises**",
+            "weight": "bolder",
+            "spacing": "medium"
+          },
+          {
+            "type": "TextBlock",
+            "text": "${join(certifications.entreprise, '\n• ')}",
+            "wrap": true,
+            "size": "small"
+          },
+          {
+            "type": "Container",
+            "separator": true,
+            "spacing": "medium",
+            "style": "accent",
+            "$when": "${web_sources != null && count(web_sources) > 0}",
+            "items": [
+              {
+                "type": "TextBlock",
+                "text": "🌐 **Sources Web Enrichies**",
+                "weight": "bolder",
+                "color": "light"
+              },
+              {
+                "type": "TextBlock",
+                "text": "Cette analyse a été enrichie avec des données récentes du web:",
+                "wrap": true,
+                "size": "small",
+                "color": "light",
+                "spacing": "small"
+              },
+              {
+                "$data": "${web_sources}",
+                "type": "TextBlock",
+                "text": "• ${title} - [${source}](${url})",
+                "wrap": true,
+                "size": "small",
+                "color": "light"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

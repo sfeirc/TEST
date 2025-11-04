@@ -1,0 +1,368 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "Container",
+      "style": "emphasis",
+      "bleed": true,
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "Image",
+                  "url": "https://upload.wikimedia.org/wikipedia/fr/e/e6/Logo-infotel.png",
+                  "size": "high",
+                  "width": "192px",
+                  "altText": "Logo Infotel"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Présentation HTML Générée",
+                  "size": "large",
+                  "weight": "bolder",
+                  "color": "accent"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${title}",
+                  "size": "medium",
+                  "wrap": true,
+                  "spacing": "none",
+                  "isSubtle": true
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "spacing": "medium",
+      "separator": true,
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "✅ HTML généré et validé avec succès!",
+          "weight": "bolder",
+          "color": "good",
+          "size": "medium"
+        },
+        {
+          "type": "FactSet",
+          "facts": [
+            {
+              "title": "📊 Slides:",
+              "value": "${count(slides)}"
+            },
+            {
+              "title": "🔄 Validations:",
+              "value": "${validation_iterations} itération(s)"
+            },
+            {
+              "title": "✅ Status:",
+              "value": "${validation_status}"
+            }
+          ],
+          "spacing": "small"
+        },
+        {
+          "type": "TextBlock",
+          "text": "Qualité de Génération:",
+          "weight": "bolder",
+          "size": "small",
+          "spacing": "medium"
+        },
+        {
+          "type": "ColumnSet",
+          "spacing": "small",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "${if(validation_iterations == '1', '100px', if(validation_iterations == '2', '66px', '33px'))}",
+              "style": "${if(validation_iterations == '1', 'good', if(validation_iterations == '2', 'warning', 'attention'))}",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": " ",
+                  "size": "small"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "${if(validation_iterations == '1', '0px', if(validation_iterations == '2', '34px', '67px'))}",
+              "style": "default",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": " ",
+                  "size": "small"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "TextBlock",
+          "text": "${if(validation_iterations == '1', '✨ Parfait dès la première fois!', if(validation_iterations == '2', '✅ Optimisé après ajustements', '⚠️ Généré après plusieurs corrections'))}",
+          "size": "small",
+          "isSubtle": true,
+          "spacing": "small"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "style": "good",
+      "bleed": true,
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "👁️ Prévisualisation Disponible",
+          "weight": "bolder",
+          "size": "medium",
+          "horizontalAlignment": "center"
+        },
+        {
+          "type": "TextBlock",
+          "text": "Cliquez sur le bouton ci-dessous pour voir le rendu HTML avant conversion en PowerPoint.",
+          "wrap": true,
+          "horizontalAlignment": "center",
+          "spacing": "small",
+          "isSubtle": true
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "$data": "${slides}",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "${$index + 1}",
+                  "weight": "bolder",
+                  "size": "large",
+                  "color": "accent",
+                  "horizontalAlignment": "center"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "${title}",
+                  "weight": "bolder",
+                  "size": "medium",
+                  "wrap": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${if(subtitle, subtitle, '')}",
+                  "wrap": true,
+                  "spacing": "small",
+                  "isSubtle": true,
+                  "isVisible": "${if(subtitle, true, false)}"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "• ${join(if(bullets, bullets, []), '\n• ')}",
+                  "wrap": true,
+                  "spacing": "small"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "🎨 Type: ${type}",
+                  "wrap": true,
+                  "spacing": "small",
+                  "isSubtle": true,
+                  "size": "small"
+                }
+              ]
+            }
+          ],
+          "separator": true,
+          "spacing": "medium"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "isVisible": "${if(key_messages, true, false)}",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "💡 Messages Clés",
+          "weight": "bolder",
+          "size": "medium",
+          "color": "accent"
+        },
+        {
+          "type": "TextBlock",
+          "text": "• ${join(key_messages, '\n• ')}",
+          "wrap": true,
+          "spacing": "small"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "style": "good",
+      "$when": "${web_sources != null && count(web_sources) > 0}",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "🌐 Données Enrichies par Web Search",
+          "weight": "bolder",
+          "size": "medium",
+          "color": "light"
+        },
+        {
+          "type": "TextBlock",
+          "text": "Cette présentation a été enrichie avec des données récentes et crédibles:",
+          "wrap": true,
+          "size": "small",
+          "color": "light",
+          "spacing": "small"
+        },
+        {
+          "$data": "${web_sources}",
+          "type": "TextBlock",
+          "text": "• ${title} (${source})",
+          "wrap": true,
+          "size": "small",
+          "color": "light"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "large",
+      "style": "attention",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "⚡ Action Requise",
+          "weight": "bolder",
+          "size": "medium",
+          "horizontalAlignment": "center"
+        },
+        {
+          "type": "TextBlock",
+          "text": "Prévisualisez le résultat, puis confirmez pour générer le PowerPoint ÉDITABLE.",
+          "wrap": true,
+          "horizontalAlignment": "center",
+          "spacing": "small"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "👁️ Prévisualiser HTML",
+      "url": "${html_preview_url}",
+      "style": "default"
+    },
+    {
+      "type": "Action.Submit",
+      "title": "✅ Confirmer et Générer PowerPoint",
+      "style": "positive",
+      "data": {
+        "action": "confirm_html_to_pptx",
+        "html_id": "${html_id}"
+      }
+    },
+    {
+      "type": "Action.ShowCard",
+      "title": "✏️ Modifier le Contenu",
+      "card": {
+        "type": "AdaptiveCard",
+        "body": [
+          {
+            "type": "TextBlock",
+            "text": "💬 Décrivez ce que vous voulez modifier",
+            "weight": "bolder",
+            "size": "medium"
+          },
+          {
+            "type": "TextBlock",
+            "text": "Exemples: \"Ajouter une slide sur les ROI\", \"Supprimer la slide 3\", \"Changer le titre de la slide 5 en...\", \"Rendre le contenu plus technique\"",
+            "wrap": true,
+            "size": "small",
+            "isSubtle": true,
+            "spacing": "small"
+          },
+          {
+            "type": "Input.Text",
+            "id": "modification_request",
+            "placeholder": "Ex: Ajouter une slide sur la sécurité cloud entre les slides 4 et 5...",
+            "isMultiline": true,
+            "style": "text"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Action.Submit",
+            "title": "✨ Appliquer les Modifications",
+            "style": "positive",
+            "data": {
+              "action": "modify_html_deck",
+              "html_id": "${html_id}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "🔄 Régénérer Complètement",
+      "data": {
+        "action": "regenerate_html_deck"
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "❌ Annuler",
+      "style": "destructive",
+      "data": {
+        "action": "cancel_html_generation"
+      }
+    }
+  ]
+}
+

@@ -1,0 +1,44 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/copilot/plugin/v2.1/schema.json",
+    "schema_version": "v2.1",
+    "name_for_human": "GenerateDiagramFromText API",
+    "description_for_human": "Description for GenerateDiagramFromText API",
+    "description_for_model": "Description for GenerateDiagramFromText API",
+    "contact_email": "publisher-email@example.com",
+    "namespace": "infotel",
+    "capabilities": {
+        "conversation_starters": [
+            {
+                "text": "Generate a corporate-style diagram specification f"
+            }
+        ]
+    },
+    "functions": [
+        {
+            "name": "generateDiagramFromText",
+            "description": "Given a textual description of a process, architecture, stakeholders or data flows,\nproduce a clean diagram specification that can be inserted into a commercial / executive deck.\nThe diagram must be business-friendly (no low-level infra noise) and aligned with Infotel&apos;s\ncorporate style: clear actors, systems, flows, responsibilities.\n",
+            "capabilities": {
+                "response_semantics": {
+                    "data_path": "$",
+                    "static_template": {
+                        "file": "./adaptiveCards/generateDiagramFromText.json"
+                    }
+                }
+            }
+        }
+    ],
+    "runtimes": [
+        {
+            "type": "OpenApi",
+            "auth": {
+                "type": "None"
+            },
+            "spec": {
+                "url": "apiSpecificationFile/openapi_2.yaml"
+            },
+            "run_for_functions": [
+                "generateDiagramFromText"
+            ]
+        }
+    ]
+}

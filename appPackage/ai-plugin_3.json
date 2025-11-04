@@ -1,0 +1,44 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/copilot/plugin/v2.1/schema.json",
+    "schema_version": "v2.1",
+    "name_for_human": "UniformizeProposal API",
+    "description_for_human": "Description for UniformizeProposal API",
+    "description_for_model": "Description for UniformizeProposal API",
+    "contact_email": "publisher-email@example.com",
+    "namespace": "infotel",
+    "capabilities": {
+        "conversation_starters": [
+            {
+                "text": "Harmonize and standardize a sales / proposal slide"
+            }
+        ]
+    },
+    "functions": [
+        {
+            "name": "uniformizeProposal",
+            "description": "Given a rough proposal deck (slides with inconsistent tone, wording, or structure),\nreturn a harmonized version aligned with Infotel&apos;s branding and messaging guidelines.\nThe response also includes a change log (what was fixed slide-by-slide),\nand global recommendations to keep the deck consistent.\n",
+            "capabilities": {
+                "response_semantics": {
+                    "data_path": "$",
+                    "static_template": {
+                        "file": "./adaptiveCards/uniformizeProposal.json"
+                    }
+                }
+            }
+        }
+    ],
+    "runtimes": [
+        {
+            "type": "OpenApi",
+            "auth": {
+                "type": "None"
+            },
+            "spec": {
+                "url": "apiSpecificationFile/openapi_3.yaml"
+            },
+            "run_for_functions": [
+                "uniformizeProposal"
+            ]
+        }
+    ]
+}

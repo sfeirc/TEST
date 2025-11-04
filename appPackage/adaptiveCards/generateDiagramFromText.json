@@ -1,0 +1,365 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "Container",
+      "style": "emphasis",
+      "bleed": true,
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "Image",
+                  "url": "https://upload.wikimedia.org/wikipedia/fr/e/e6/Logo-infotel.png",
+                  "size": "high",
+                  "width": "192px",
+                  "altText": "Logo Infotel"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "🎨 Diagramme Généré",
+                  "size": "extraLarge",
+                  "weight": "bolder",
+                  "color": "accent"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${title}",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "wrap": true,
+                  "spacing": "none"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "spacing": "medium",
+      "separator": true,
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "📊 Type: **${type}**",
+                  "wrap": true
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "📐 Layout: **${layout}**",
+                  "wrap": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "TextBlock",
+          "text": "${count(nodes)} slides • ${count(connections)} connexions",
+          "isSubtle": true,
+          "spacing": "small"
+        },
+        {
+          "type": "TextBlock",
+          "text": "Complexité du Diagramme:",
+          "weight": "bolder",
+          "size": "small",
+          "spacing": "medium"
+        },
+        {
+          "type": "ColumnSet",
+          "spacing": "small",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "${if(count(nodes) <= 5, '50px', if(count(nodes) <= 8, '80px', '100px'))}",
+              "style": "${if(count(nodes) <= 5, 'good', if(count(nodes) <= 8, 'accent', 'warning'))}",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": " ",
+                  "size": "small"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "${if(count(nodes) <= 5, '50px', if(count(nodes) <= 8, '20px', '0px'))}",
+              "style": "default",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": " ",
+                  "size": "small"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "TextBlock",
+          "text": "${if(count(nodes) <= 5, '✅ Simple et clair (optimal)', if(count(nodes) <= 8, '📊 Complexité modérée (bon)', '⚠️ Complexe (max 10 slides recommandés)'))}",
+          "size": "small",
+          "isSubtle": true,
+          "spacing": "small"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Slides (Composants)",
+          "weight": "bolder",
+          "size": "medium",
+          "color": "good"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "$data": "${nodes}",
+      "separator": false,
+      "spacing": "small",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "▪",
+                  "weight": "bolder"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "${label} (${type})",
+                  "wrap": true,
+                  "weight": "bolder"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${notes}",
+                  "wrap": true,
+                  "isSubtle": true,
+                  "spacing": "none",
+                  "isVisible": "${if(notes, true, false)}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Connexions (Flux)",
+          "weight": "bolder",
+          "size": "medium",
+          "color": "good"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "$data": "${edges}",
+      "separator": false,
+      "spacing": "small",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "${from} → ${to}: ${label}${if(critical, ' ⚠️', '')}",
+          "wrap": true
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "📝 Légende",
+          "weight": "bolder",
+          "size": "medium"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${if(count(legend) > 0, join(legend, '\n• '), 'Aucune légende fournie')}",
+          "wrap": true,
+          "spacing": "small",
+          "isSubtle": true
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "spacing": "medium",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "💬 Points de Discussion",
+          "weight": "bolder",
+          "size": "medium"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${if(count(talkingPoints) > 0, join(talkingPoints, '\n• '), 'Aucun point de discussion fourni')}",
+          "wrap": true,
+          "spacing": "small",
+          "isSubtle": true
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "📥 Télécharger PowerPoint",
+      "url": "http://localhost:3001${download_url}",
+      "style": "positive"
+    },
+    {
+      "type": "Action.ShowCard",
+      "title": "ℹ️ Détails du diagramme",
+      "card": {
+        "type": "AdaptiveCard",
+        "body": [
+          {
+            "type": "TextBlock",
+            "text": "**Palette de Couleurs**",
+            "weight": "bolder"
+          },
+          {
+            "type": "FactSet",
+            "facts": [
+              {
+                "title": "🎨 Primaire:",
+                "value": "${color_scheme.primary}"
+              },
+              {
+                "title": "🎨 Secondaire:",
+                "value": "${color_scheme.secondary}"
+              },
+              {
+                "title": "🎨 Accent:",
+                "value": "${color_scheme.accent}"
+              }
+            ]
+          },
+          {
+            "type": "TextBlock",
+            "text": "**Statistiques**",
+            "weight": "bolder",
+            "spacing": "medium"
+          },
+          {
+            "type": "FactSet",
+            "facts": [
+              {
+                "title": "Slides:",
+                "value": "${count(nodes)}"
+              },
+              {
+                "title": "Connexions:",
+                "value": "${count(connections)}"
+              },
+              {
+                "title": "Conteneurs:",
+                "value": "${count(containers)}"
+              }
+            ]
+          },
+          {
+            "type": "Container",
+            "separator": true,
+            "spacing": "medium",
+            "style": "good",
+            "$when": "${web_sources != null && count(web_sources) > 0}",
+            "items": [
+              {
+                "type": "TextBlock",
+                "text": "🌐 **Diagramme Enrichi avec Web Search**",
+                "weight": "bolder",
+                "color": "light"
+              },
+              {
+                "type": "TextBlock",
+                "text": "Les conventions et standards ont été vérifiés avec:",
+                "wrap": true,
+                "size": "small",
+                "color": "light",
+                "spacing": "small"
+              },
+              {
+                "$data": "${web_sources}",
+                "type": "TextBlock",
+                "text": "• ${title} (${source})",
+                "wrap": true,
+                "size": "small",
+                "color": "light"
+              }
+            ]
+          },
+          {
+            "type": "TextBlock",
+            "text": "💡 **Conseil:** Ouvrez le fichier PowerPoint pour modifier les couleurs, textes et positions!",
+            "wrap": true,
+            "spacing": "medium",
+            "size": "small",
+            "color": "accent"
+          }
+        ]
+      }
+    }
+  ]
+}
